@@ -182,6 +182,75 @@ public:
 	}
 };
 
+#define GRADUATE_TAKE_PARAMETERS const std::string& title, const std::string& state_of_matter, const std::string& color, double weight
+#define GRADUATE_GIVE_PARAMETERS title, state_of_matter, color, weight
+class Graduate : public Student
+{
+private:
+
+	std::string title;
+	std::string state_of_matter;
+	std::string color;
+	double weight;
+
+public:
+
+	const std::string& get_title()const
+	{
+		return title;
+	}
+	const std::string& get_state_of_matter()const
+	{
+		return state_of_matter;
+	}
+	const std::string& get_color()const
+	{
+		return color;
+	}
+	double get_weight()const
+	{
+		return weight;
+	}
+
+	void set_title(const std::string& title)
+	{
+		this->title = title;
+	}
+	void set_state_of_matter(const std::string& state_of_matter)
+	{
+		this->state_of_matter = state_of_matter;
+	}
+	void set_color(const std::string& color)
+	{
+		this->color = color;
+	}
+	void set_weight(int weight)
+	{
+		this->weight = weight;
+	}
+
+	//constructors
+	Graduate(HUMAN_TAKE_PARAMETERS, STUDENT_TAKE_PARAMETERS, GRADUATE_TAKE_PARAMETERS) : Student(HUMAN_GIVE_PARAMETERS, STUDENT_GIVE_PARAMETERS)
+	{
+		set_title(title);
+		set_state_of_matter(state_of_matter);
+		set_color(color);
+		set_weight(weight);
+		cout << "GConstructor:\t" << this << endl;
+	}
+	~Graduate()
+	{
+		cout << "GDestructor:\t" << this << endl;
+	}
+
+	//methods
+	void print()const
+	{
+		Student::print();
+		cout << title << " " << state_of_matter << " " << color << " " << weight << " kg" << endl;
+	}
+};
+
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -194,4 +263,7 @@ void main()
 
 	Teacher teacher("White", "Walter", 50, "Chemistry", 25);
 	teacher.print();
+
+	Graduate graduate("Dick", "Cocker", 38, "Anatomy", "ZZ_300", 45, 36, "How to stop hair loss", "liquid", "yellow", 8);
+	graduate.print();
 }
