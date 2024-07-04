@@ -264,6 +264,6 @@ void main()
 	Teacher teacher("White", "Walter", 50, "Chemistry", 25);
 	teacher.print();
 
-	Graduate graduate("Dick", "Cocker", 38, "Anatomy", "ZZ_300", 45, 36, "How to stop hair loss", "liquid", "yellow", 8);
+	Graduate graduate("Dick", "Cocker", 38, "Chemistry", "ZZ_300", 45, 36, "How to stop hair loss", "liquid", "yellow", 8);
 	graduate.print();
 }
