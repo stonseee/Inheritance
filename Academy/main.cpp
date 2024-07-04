@@ -5,6 +5,8 @@ using std::cin;
 using std::cout;
 using std::endl;
 
+#define delimiter "\n----------------------------------------\n"
+
 #define HUMAN_TAKE_PARAMETERS const std::string& last_name, const std::string& first_name, int age
 #define HUMAN_GIVE_PARAMETERS last_name, first_name, age
 #define STUDENT_TAKE_PARAMETERS const std::string& speciality, const std::string& group, double rating, double attendance
@@ -54,13 +56,13 @@ public:
 		set_age(age);
 		cout << "HConstructor:\t" << this << endl;
 	}
-	~Human()
+	virtual ~Human()
 	{
 		cout << "HDestructor:\t" << this << endl;
 	}
 
 	//methods:
-	void print()const
+	virtual void print()const
 	{
 		cout << last_name << " " << first_name << " " << age << endl;
 	}
@@ -112,7 +114,15 @@ public:
 	}
 
 	//constructors
-	Student(HUMAN_TAKE_PARAMETERS, STUDENT_TAKE_PARAMETERS) :Human(HUMAN_GIVE_PARAMETERS)
+	Student(HUMAN_TAKE_PARAMETERS, STUDENT_TAKE_PARAMETERS) : Human(HUMAN_GIVE_PARAMETERS)
+	{
+		set_speciality(speciality);
+		set_group(group);
+		set_rating(rating);
+		set_attendance(attendance);
+		cout << "SConstructor:\t" << this << endl;
+	}
+	Student(const Human& human, STUDENT_TAKE_PARAMETERS) : Human(human)
 	{
 		set_speciality(speciality);
 		set_group(group);
@@ -126,7 +136,7 @@ public:
 	}
 
 	//methods
-	void print()const
+	void print()const override
 	{
 		Human::print();
 		cout << speciality << " " << group << " " << rating << " " << attendance << endl;
@@ -175,67 +185,43 @@ public:
 	}
 
 	//methods
-	void print()const
+	void print()const override
 	{
 		Human::print();
 		cout << speciality << " " << experience << " years" << endl;
 	}
 };
 
-#define GRADUATE_TAKE_PARAMETERS const std::string& title, const std::string& state_of_matter, const std::string& color, double weight
-#define GRADUATE_GIVE_PARAMETERS title, state_of_matter, color, weight
+#define GRADUATE_TAKE_PARAMETERS const std::string& subject
+#define GRADUATE_GIVE_PARAMETERS subject
 class Graduate : public Student
 {
 private:
 
-	std::string title;
-	std::string state_of_matter;
-	std::string color;
-	double weight;
+	std::string subject;
 
 public:
 
-	const std::string& get_title()const
+	const std::string& get_subject()const
 	{
-		return title;
+		return subject;
 	}
-	const std::string& get_state_of_matter()const
+	
+	void set_subject(const std::string& subject)
 	{
-		return state_of_matter;
+		this->subject = subject;
 	}
-	const std::string& get_color()const
-	{
-		return color;
-	}
-	double get_weight()const
-	{
-		return weight;
-	}
-
-	void set_title(const std::string& title)
-	{
-		this->title = title;
-	}
-	void set_state_of_matter(const std::string& state_of_matter)
-	{
-		this->state_of_matter = state_of_matter;
-	}
-	void set_color(const std::string& color)
-	{
-		this->color = color;
-	}
-	void set_weight(int weight)
-	{
-		this->weight = weight;
-	}
-
+	
 	//constructors
-	Graduate(HUMAN_TAKE_PARAMETERS, STUDENT_TAKE_PARAMETERS, GRADUATE_TAKE_PARAMETERS) : Student(HUMAN_GIVE_PARAMETERS, STUDENT_GIVE_PARAMETERS)
+	Graduate(HUMAN_TAKE_PARAMETERS, STUDENT_TAKE_PARAMETERS, GRADUATE_TAKE_PARAMETERS)
+		: Student(HUMAN_GIVE_PARAMETERS, STUDENT_GIVE_PARAMETERS)
 	{
-		set_title(title);
-		set_state_of_matter(state_of_matter);
-		set_color(color);
-		set_weight(weight);
+		set_subject(subject);
+		cout << "GConstructor:\t" << this << endl;
+	}
+	Graduate(const Student& student, const std::string& subject) : Student(student)
+	{
+		set_subject(subject);
 		cout << "GConstructor:\t" << this << endl;
 	}
 	~Graduate()
@@ -244,26 +230,80 @@ public:
 	}
 
 	//methods
-	void print()const
+	void print()const override
 	{
 		Student::print();
-		cout << title << " " << state_of_matter << " " << color << " " << weight << " kg" << endl;
+		cout << subject << endl;
 	}
 };
+
+//#define INHERITANCE_1
+//#define INHERITANCE_2
 
 void main()
 {
 	setlocale(LC_ALL, "");
+
+#ifdef INHERITANCE_1
 	cout << "HelloAcademy" << endl;
 	Human human("Richter", "Jeffrey", 40);
 	human.print();
 
+	cout << delimiter << endl;
+
 	Student student("Pinkman", "Jessie", 20, "Chemistry", "WW_220", 95, 90);
 	student.print();
+
+	cout << delimiter << endl;
 
 	Teacher teacher("White", "Walter", 50, "Chemistry", 25);
 	teacher.print();
 
-	Graduate graduate("Dick", "Cocker", 38, "Chemistry", "ZZ_300", 45, 36, "How to stop hair loss", "liquid", "yellow", 8);
+	cout << delimiter << endl;
+
+	Graduate graduate("Schrader", "Hank", 38, "Chemistry", "OBN", 45, 36, "How to stop hair loss");
 	graduate.print();
+
+	cout << delimiter << endl;
+#endif // NHERITANCE_1
+
+#ifdef INHERITANCE_2
+	Human human("Vercetty", "Tommy", 30);
+	human.print();
+
+	cout << delimiter << endl;
+
+	Student student(human, "Theft", "Vice", 95, 98);
+	student.print();
+
+	cout << delimiter << endl;
+
+	Graduate graduate(student, "How to make money");
+	graduate.print();
+
+	cout << delimiter << endl;
+#endif // INHERITANCE_2
+
+	Human* group[] =
+	{
+		new Student("Pinkman", "Jessie", 20, "Chemistry", "WW_220", 95, 90),
+		new Teacher("White", "Walter", 50, "Chemistry", 25),
+		new Graduate("Schrader", "Hank", 38, "Chemistry", "OBN", 45, 36, "How to stop hair loss"),
+		new Student("Vercetty", "Tommy", 30, "Theft", "Vice", 95, 98),
+		new Teacher("Diaz", "Ricardo", 50, "Weapors distribution", 20)
+	};
+	
+	cout << delimiter << endl;
+
+	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
+	{
+		//group[i]->print();
+		cout << *group[i] << endl;
+		cout << delimiter << endl;
+	}
+
+	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
+	{
+		delete group[i];
+	}
 }
