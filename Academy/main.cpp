@@ -62,7 +62,7 @@ public:
 	}
 
 	//methods:
-	virtual void print()const
+	virtual void print(std::ostream& os)const
 	{
 		cout << last_name << " " << first_name << " " << age << endl;
 	}
@@ -136,9 +136,9 @@ public:
 	}
 
 	//methods
-	void print()const override
+	void print(std::ostream& os)const override
 	{
-		Human::print();
+		Human::print(os);
 		cout << speciality << " " << group << " " << rating << " " << attendance << endl;
 	}
 };
@@ -185,9 +185,9 @@ public:
 	}
 
 	//methods
-	void print()const override
+	void print(std::ostream& os)const override
 	{
-		Human::print();
+		Human::print(os);
 		cout << speciality << " " << experience << " years" << endl;
 	}
 };
@@ -230,12 +230,18 @@ public:
 	}
 
 	//methods
-	void print()const override
+	void print(std::ostream& os)const override
 	{
-		Student::print();
+		Student::print(os);
 		cout << subject << endl;
 	}
 };
+
+std::ostream& operator<<(std::ostream& os, const Human& obj)
+{	
+	obj.print(os);
+	return os;
+}
 
 //#define INHERITANCE_1
 //#define INHERITANCE_2
