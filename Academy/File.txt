@@ -2,4 +2,4 @@ Student Pinkman Jessie 20 Chemistry WW_220 95 90
 Teacher White Walter 50 Chemistry 25 years
 Graduate Schrader Hank 38 Chemistry DEA 45 36 How to stop hair loss
 Student Vercetty Tommy 30 Theft Vice 95 98
-Teacher Diaz Ricardo 50 Weapons distribution 20 years
+Teacher Diaz Ricardo 50 Weapors distribution 20 years

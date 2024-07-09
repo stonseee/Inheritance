@@ -35,3 +35,9 @@ std::ostream& Teacher::print(std::ostream& os)const
 {
 	return Human::print(os) << " " << speciality << " " << experience << " years";
 }
+
+char* Teacher::add_class(char* Type)
+{
+	strcpy(Type, "Teacher ");
+	return Type;
+}

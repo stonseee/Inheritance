@@ -32,3 +32,9 @@ std::ostream& Graduate::print(std::ostream& os)const
 {
 	return Student::print(os) << " " << subject;
 }
+
+char* Graduate::add_class(char* Type)
+{
+	strcpy(Type, "Graduate ");
+	return Type;
+}

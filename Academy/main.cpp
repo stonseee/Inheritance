@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 #include<string>
 #include<fstream>
@@ -30,9 +31,10 @@ using std::endl;
 //	}
 //}
 
+
 //#define INHERITANCE_1
 //#define INHERITANCE_2
-#define WRITE_TO_FILE
+//#define WRITE_TO_FILE
 #define READ_FROM_FILE
 
 void main()
@@ -80,6 +82,8 @@ void main()
 #endif // INHERITANCE_2
 
 #ifdef WRITE_TO_FILE
+
+	char* Type = new char;
 	Human* group[] =
 	{
 		new Student("Pinkman", "Jessie", 20, "Chemistry", "WW_220", 95, 90),
@@ -92,7 +96,10 @@ void main()
 	std::ofstream fout;
 	fout.open("File.txt", std::ios_base::app);
 
-	fout << Print(group, sizeof(group) / sizeof(group[0])) << endl;
+	for (int i = 0; i < (group, sizeof(group) / sizeof(group[0])); ++i)
+	{
+		fout << group[i]->add_class(Type) << *group[i] << endl;
+	}	
 
 	fout.close();
 

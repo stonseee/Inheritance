@@ -61,3 +61,9 @@ std::ostream& Student::print(std::ostream& os)const
 {
 	return Human::print(os) << " " << speciality << " " << group << " " << rating << " " << attendance;
 }
+
+char* Student::add_class(char* Type)
+{
+	strcpy(Type, "Student ");
+	return Type;
+}

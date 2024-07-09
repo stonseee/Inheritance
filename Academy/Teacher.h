@@ -1,5 +1,7 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
+#include<string>
 #include"Human.h"
 using namespace std;
 using std::cin;
@@ -30,4 +32,5 @@ public:
 
 	//methods
 	std::ostream& print(std::ostream& os)const override;
+	char* add_class(char* Type)override;
 };

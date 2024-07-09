@@ -1,5 +1,7 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
+#include<string>
 using namespace std;
 using std::cin;
 using std::cout;
@@ -15,6 +17,7 @@ class Human;
 std::ostream& operator<<(std::ostream& os, const Human& obj);
 void Print(Human* group[], const int n);
 void Clear(Human* group[], const int n);
+
 
 class Human
 {
@@ -40,4 +43,5 @@ public:
 
 	//methods:
 	virtual std::ostream& print(std::ostream& os)const;
+	virtual char* add_class(char* Type);
 };

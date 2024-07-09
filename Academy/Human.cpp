@@ -45,6 +45,12 @@ std::ostream& Human::print(std::ostream& os)const
 	return os << last_name << " " << first_name << " " << age;
 }
 
+char* Human::add_class(char* Type)
+{
+	strcpy(Type, "Human ");
+	return Type;
+}
+
 std::ostream& operator<<(std::ostream& os, const Human& obj)
 {
 	return obj.print(os);
@@ -66,3 +72,4 @@ void Clear(Human* group[], const int n)
 		delete group[i];
 	}
 }
+
