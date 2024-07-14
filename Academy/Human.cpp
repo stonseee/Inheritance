@@ -27,6 +27,13 @@ void Human::set_age(int age)
 }
 
 //constructors:
+//Human::Human()
+//{
+//	set_last_name("");
+//	set_first_name("");
+//	set_age(0);
+//	cout << "HConstructor:\t" << this << endl;
+//}
 Human::Human(HUMAN_TAKE_PARAMETERS)
 {
 	set_last_name(last_name);
@@ -42,7 +49,8 @@ Human::~Human()
 //methods:
 std::ostream& Human::print(std::ostream& os)const
 {
-	return os << last_name << " " << first_name << " " << age;
+	//return os << last_name << " " << first_name << " " << age;
+	return os << endl << last_name << endl << first_name << endl << age;
 }
 
 char* Human::add_class(char* Type)

@@ -17,8 +17,8 @@ private:
 
 	std::string speciality;
 	std::string group;
-	double rating;
-	double attendance;
+	int rating;
+	int attendance;
 
 public:
 

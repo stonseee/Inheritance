@@ -18,7 +18,6 @@ std::ostream& operator<<(std::ostream& os, const Human& obj);
 void Print(Human* group[], const int n);
 void Clear(Human* group[], const int n);
 
-
 class Human
 {
 private:
@@ -38,6 +37,7 @@ public:
 	void set_age(int age);
 
 	//constructors:
+	//Human();
 	Human(HUMAN_TAKE_PARAMETERS);
 	virtual ~Human();
 

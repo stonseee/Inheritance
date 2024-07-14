@@ -59,7 +59,8 @@ Student::~Student()
 //methods
 std::ostream& Student::print(std::ostream& os)const
 {
-	return Human::print(os) << " " << speciality << " " << group << " " << rating << " " << attendance;
+	//return Human::print(os) << " " << speciality << " " << group << " " << rating << " " << attendance;
+	return Human::print(os) << endl << speciality << endl << group << endl << rating << endl << attendance;
 }
 
 char* Student::add_class(char* Type)

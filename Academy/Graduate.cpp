@@ -30,7 +30,8 @@ Graduate::~Graduate()
 //methods
 std::ostream& Graduate::print(std::ostream& os)const
 {
-	return Student::print(os) << " " << subject;
+	//return Student::print(os) << " " << subject;
+	return Student::print(os) << endl << subject;
 }
 
 char* Graduate::add_class(char* Type)

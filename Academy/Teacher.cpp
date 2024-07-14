@@ -33,7 +33,8 @@ Teacher::~Teacher()
 //methods
 std::ostream& Teacher::print(std::ostream& os)const
 {
-	return Human::print(os) << " " << speciality << " " << experience << " years";
+	//return Human::print(os) << " " << speciality << " " << experience << " years";
+	return Human::print(os) << endl << speciality << endl << experience << " years";
 }
 
 char* Teacher::add_class(char* Type)
