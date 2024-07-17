@@ -59,12 +59,19 @@ Student::~Student()
 //methods
 std::ostream& Student::print(std::ostream& os)const
 {
-	//return Human::print(os) << " " << speciality << " " << group << " " << rating << " " << attendance;
-	return Human::print(os) << endl << speciality << endl << group << endl << rating << endl << attendance;
+	return Human::print(os) << " " << speciality << " " << group << " " << rating << " " << attendance;	
+}
+std::ofstream& Student::print(std::ofstream& ofs)const
+{
+	Human::print(ofs);
+	ofs.width(SPECIALITY_WIDTH);
+	ofs << speciality;
+	ofs.width(GROUP_WIDTH);
+	ofs << group;
+	ofs.width(RATING_WIDTH);
+	ofs << rating;
+	ofs.width(ATTENDANCE_WIDTH);
+	ofs << attendance;
+	return ofs;
 }
 
-char* Student::add_class(char* Type)
-{
-	strcpy(Type, "Student ");
-	return Type;
-}

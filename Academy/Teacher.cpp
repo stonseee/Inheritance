@@ -33,12 +33,16 @@ Teacher::~Teacher()
 //methods
 std::ostream& Teacher::print(std::ostream& os)const
 {
-	//return Human::print(os) << " " << speciality << " " << experience << " years";
-	return Human::print(os) << endl << speciality << endl << experience << " years";
+	return Human::print(os) << " " << speciality << " " << experience << " years";	
 }
 
-char* Teacher::add_class(char* Type)
+std::ofstream& Teacher::print(std::ofstream& ofs)const
 {
-	strcpy(Type, "Teacher ");
-	return Type;
+	Human::print(ofs);
+	ofs.width(SPECIALITY_WIDTH);
+	ofs << speciality;
+	ofs.width(EXPERIENCE_WIDTH);
+	ofs << experience;
+	return ofs;
 }
+

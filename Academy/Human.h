@@ -2,6 +2,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 #include<string>
+#include<fstream>	
+#include<string.h>
 using namespace std;
 using std::cin;
 using std::cout;
@@ -15,13 +17,18 @@ using std::endl;
 class Human;
 
 std::ostream& operator<<(std::ostream& os, const Human& obj);
-void Print(Human* group[], const int n);
-void Clear(Human* group[], const int n);
+std::ofstream& operator<<(std::ofstream& ofs, const Human& obj);
+//void Print(Human* group[], const int n);
+//void Clear(Human* group[], const int n);
 
 class Human
 {
 private:
 
+	static const int TYPE_WIDTH = 12;
+	static const int LAST_NAME_WIDTH = 15;
+	static const int FIRST_NAME_WIDTH = 15;
+	static const int AGE_WIDTH = 5;
 	std::string last_name;
 	std::string first_name;
 	int age;
@@ -43,5 +50,7 @@ public:
 
 	//methods:
 	virtual std::ostream& print(std::ostream& os)const;
-	virtual char* add_class(char* Type);
+	virtual std::ofstream& print(std::ofstream& ofs)const;	
+	
+	
 };

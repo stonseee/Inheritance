@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+﻿#define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 #include<string>
 #include<fstream>
@@ -31,11 +31,86 @@ using std::endl;
 //	}
 //}
 
+void Print(Human* group[], const int n)
+{
+	cout << delimiter << endl;
+	for (int i = 0; i < n; i++)
+	{
+		//group[i]->print();
+		cout << *group[i] << endl;
+		cout << delimiter << endl;
+	}
+}
+void Save(Human* group[], const int n, const std::string& filename)
+{
+	std::ofstream fout(filename);
+	for (int i = 0; i < n; i++)
+	{
+		fout << *group[i] << endl;
+	}
+	fout.close();
+	std::string cmd = "notepad " + filename;
+	system(cmd.c_str());	
+}
+Human** Load(const std::string& filename, int& n)
+{
+	Human** group = nullptr;
+	std::ifstream fin(filename);
+	if (fin.is_open())
+	{		
+		n = 0;
+		while (!fin.eof())
+		{
+			std::string buffer;			
+			std::getline(fin, buffer);	
+			
+			if (
+				buffer.find("Human:") == std::string::npos &&
+				buffer.find("Student:") == std::string::npos &&
+				buffer.find("Teacher:") == std::string::npos &&
+				buffer.find("Graduate:") == std::string::npos
+				)continue;
+			n++;
+		}
+		cout << "Количество записей в файле: " << n << endl;
+		
+		group = new Human * [n] {};
+		
+		cout << "Позиция курсора на чтение: " << fin.tellg() << endl;
+		fin.clear();
+		fin.seekg(0);
+		cout << "Позиция курсора на чтение: " << fin.tellg() << endl;
+		
+		for (int i = 0; !fin.eof(); i++)
+		{
+			std::string type;
+			fin >> type;
+			
+		}
+
+		fin.close();
+	}
+	else
+	{
+		std::cerr << "Error: File not found" << endl;
+	}
+	return group;
+}
+void Clear(Human* group[], const int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		delete group[i];
+	}
+}
+
 
 //#define INHERITANCE_1
 //#define INHERITANCE_2
 //#define WRITE_TO_FILE
-#define READ_FROM_FILE
+//#define READ_FROM_FILE
+//#define SAVE_CHECK
+#define LOAD_CHECK
 
 void main()
 {
@@ -235,4 +310,21 @@ void main()
 	Clear(group, sizeof(group) / sizeof(group[0]));
 #endif // READ_FROM_FILE
 
+#ifdef SAVE_CHECK
+	Human* group[] =
+	{
+		new Student("Pinkman", "Jessie", 20, "Chenistry", "WW_220", 95, 90),
+		new Teacher("White", "Walter", 50, "Chemistry", 25),
+		new Graduate("Schrader", "Hank", 40, "Criminalistic", "OBN", 70, 75, "How to catch Heisenberg"),
+		new Student("Vercetti", "Tommy", 30, "Theft", "Vice", 97, 98),
+		new Teacher("Diaz", "Ricardo", 50, "Weapons distribution", 20)
+	};
+	Print(group, sizeof(group) / sizeof(group[0]));
+	Save(group, sizeof(group) / sizeof(group[0]), "group.txt");
+	Clear(group, sizeof(group) / sizeof(group[0]));
+#endif // SAVE_CHECK
+
+	int n = 0;
+	Human** group = Load("group.txt", n);
+	//Print(group, n);
 }

@@ -49,35 +49,51 @@ Human::~Human()
 //methods:
 std::ostream& Human::print(std::ostream& os)const
 {
-	//return os << last_name << " " << first_name << " " << age;
-	return os << endl << last_name << endl << first_name << endl << age;
+	return os << last_name << " " << first_name << " " << age;	
 }
 
-char* Human::add_class(char* Type)
+std::ofstream& Human::print(std::ofstream& ofs)const
 {
-	strcpy(Type, "Human ");
-	return Type;
+	ofs.width(TYPE_WIDTH);
+	ofs << std::left;	
+	ofs << std::string(strchr(typeid(*this).name(), ' ') + 1) + ":";
+	ofs.width(LAST_NAME_WIDTH);
+	ofs << last_name;
+	ofs.width(FIRST_NAME_WIDTH);
+	ofs << first_name;
+	ofs.width(AGE_WIDTH);
+	ofs << age;
+	return ofs;
 }
+
+
 
 std::ostream& operator<<(std::ostream& os, const Human& obj)
 {
 	return obj.print(os);
 }
 
-void Print(Human* group[], const int n)
+std::ofstream& operator<<(std::ofstream& ofs, const Human& obj)
 {
-	cout << delimiter << endl;
-	for (int i = 0; i < n; i++)
-	{
-		cout << *group[i] << endl;
-		cout << delimiter << endl;
-	}
+	return obj.print(ofs);
 }
-void Clear(Human* group[], const int n)
-{
-	for (int i = 0; i < n; i++)
-	{
-		delete group[i];
-	}
-}
+
+
+
+//void Print(Human* group[], const int n)
+//{
+//	cout << delimiter << endl;
+//	for (int i = 0; i < n; i++)
+//	{
+//		cout << *group[i] << endl;
+//		cout << delimiter << endl;
+//	}
+//}
+//void Clear(Human* group[], const int n)
+//{
+//	for (int i = 0; i < n; i++)
+//	{
+//		delete group[i];
+//	}
+//}
 

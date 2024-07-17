@@ -2,6 +2,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 #include<string>
+#include<fstream>	
+#include<string.h>
 #include"Human.h"
 using namespace std;
 using std::cin;
@@ -15,6 +17,10 @@ class Student : public Human
 {
 private:
 
+	const static int SPECIALITY_WIDTH = 25;
+	const static int GROUP_WIDTH = 8;
+	const static int RATING_WIDTH = 8;
+	const static int ATTENDANCE_WIDTH = 8;
 	std::string speciality;
 	std::string group;
 	int rating;
@@ -39,5 +45,6 @@ public:
 
 	//methods
 	std::ostream& print(std::ostream& os)const override;
-	char* add_class(char* Type)override;
+	std::ofstream& print(std::ofstream& ofs)const override;
+	
 };

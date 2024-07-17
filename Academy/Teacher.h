@@ -2,6 +2,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 #include<string>
+#include<fstream>	
+#include<string.h>
 #include"Human.h"
 using namespace std;
 using std::cin;
@@ -15,6 +17,8 @@ class Teacher : public Human
 {
 private:
 
+	static const int SPECIALITY_WIDTH = 25;
+	static const int EXPERIENCE_WIDTH = 5;
 	std::string speciality;
 	int experience;
 
@@ -32,5 +36,6 @@ public:
 
 	//methods
 	std::ostream& print(std::ostream& os)const override;
-	char* add_class(char* Type)override;
+	std::ofstream& print(std::ofstream& ofs)const override;
+	
 };

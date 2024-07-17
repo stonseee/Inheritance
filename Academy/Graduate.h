@@ -2,6 +2,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 #include<string>
+#include<fstream>	
+#include<string.h>
 #include"Student.h"
 using namespace std;
 using std::cin;
@@ -28,6 +30,5 @@ public:
 	~Graduate();
 
 	//methods
-	std::ostream& print(std::ostream& os)const override;
-	char* add_class(char* Type)override;
+	std::ostream& print(std::ostream& os)const override;	
 };
