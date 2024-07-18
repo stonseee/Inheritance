@@ -37,6 +37,7 @@ public:
 	void set_group(const std::string& group);
 	void set_rating(double rating);
 	void set_attendance(double attendance);
+	std::ifstream& read(std::ifstream& ifs) override;
 
 	//constructors
 	Student(HUMAN_TAKE_PARAMETERS, STUDENT_TAKE_PARAMETERS);

@@ -25,7 +25,11 @@ void Human::set_age(int age)
 {
 	this->age = age;
 }
-
+std::ifstream& Human::read(std::ifstream& ifs)
+{
+	ifs >> last_name >> first_name >> age;
+	return ifs;
+}
 //constructors:
 //Human::Human()
 //{
@@ -72,13 +76,14 @@ std::ostream& operator<<(std::ostream& os, const Human& obj)
 {
 	return obj.print(os);
 }
-
 std::ofstream& operator<<(std::ofstream& ofs, const Human& obj)
 {
 	return obj.print(ofs);
 }
-
-
+std::ifstream& operator>>(std::ifstream& ifs, Human& obj)
+{
+	return obj.read(ifs);
+}
 
 //void Print(Human* group[], const int n)
 //{

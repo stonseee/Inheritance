@@ -33,7 +33,12 @@ void Student::set_attendance(double attendance)
 {
 	this->attendance = attendance;
 }
-
+std::ifstream& Student::read(std::ifstream& ifs)
+{
+	Human::read(ifs);
+	ifs >> speciality >> group >> rating >> attendance;
+	return ifs;
+}
 //constructors
 Student::Student(HUMAN_TAKE_PARAMETERS, STUDENT_TAKE_PARAMETERS) : Human(HUMAN_GIVE_PARAMETERS)
 {

@@ -29,6 +29,7 @@ public:
 
 	void set_speciality(const std::string& speciality);
 	void set_experience(int experience);
+	std::ifstream& read(std::ifstream& ifs) override;
 
 	//constructors
 	Teacher(HUMAN_TAKE_PARAMETERS, TEACHER_TAKE_PARAMETERS);

@@ -23,6 +23,7 @@ public:
 	const std::string& get_subject()const;
 
 	void set_subject(const std::string& subject);
+	std::ifstream& read(std::ifstream& ifs) override;
 
 	//constructors
 	Graduate(HUMAN_TAKE_PARAMETERS, STUDENT_TAKE_PARAMETERS, GRADUATE_TAKE_PARAMETERS);
@@ -31,4 +32,5 @@ public:
 
 	//methods
 	std::ostream& print(std::ostream& os)const override;	
+	std::ofstream& print(std::ofstream& os)const override;	
 };

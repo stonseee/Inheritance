@@ -9,6 +9,12 @@ void Graduate::set_subject(const std::string& subject)
 {
 	this->subject = subject;
 }
+std::ifstream& Graduate::read(std::ifstream& ifs)
+{
+	Student::read(ifs);
+	std::getline(ifs, subject);
+	return ifs;
+}
 
 //constructors
 Graduate::Graduate(HUMAN_TAKE_PARAMETERS, STUDENT_TAKE_PARAMETERS, GRADUATE_TAKE_PARAMETERS)
@@ -30,7 +36,12 @@ Graduate::~Graduate()
 //methods
 std::ostream& Graduate::print(std::ostream& os)const
 {
-	//return Student::print(os) << " " << subject;
-	return Student::print(os) << endl << subject;
+	return Student::print(os) << " " << subject;
+	//return Student::print(os) << endl << subject;
 }
-
+std::ofstream& Graduate::print(std::ofstream& os)const
+{
+	Student::print(os);	
+	//os << speciality;
+	return os;
+}

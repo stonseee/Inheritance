@@ -31,15 +31,20 @@ using std::endl;
 //	}
 //}
 
+
 void Print(Human* group[], const int n)
 {
 	cout << delimiter << endl;
 	for (int i = 0; i < n; i++)
 	{
 		//group[i]->print();
-		cout << *group[i] << endl;
-		cout << delimiter << endl;
+		if (group[i])
+		{
+			cout << *group[i] << endl;
+			cout << delimiter << endl;
+		}
 	}
+	cout << "Количество человек в группе: " << n << endl;
 }
 void Save(Human* group[], const int n, const std::string& filename)
 {
@@ -52,6 +57,22 @@ void Save(Human* group[], const int n, const std::string& filename)
 	std::string cmd = "notepad " + filename;
 	system(cmd.c_str());	
 }
+Human* HumanFactory(const std::string& type)
+{
+	Human* human = nullptr;
+	if (type == "Human:")human = new Human("", "", 0);
+	if (type == "Teacher:")human = new Teacher("", "", 0, "", 0);
+	if (type == "Student:")human = new Student("", "", 0, "", "", 0, 0);
+	if (type == "Graduate:")human = new Graduate("", "", 0, "", "", 0, 0, "");
+	return human;
+}
+bool NotAppropriateType(const std::string& buffer)
+{
+	return buffer.find("Human:") == std::string::npos &&
+		buffer.find("Student:") == std::string::npos &&
+		buffer.find("Teacher:") == std::string::npos &&
+		buffer.find("Graduate:") == std::string::npos;
+}
 Human** Load(const std::string& filename, int& n)
 {
 	Human** group = nullptr;
@@ -62,14 +83,8 @@ Human** Load(const std::string& filename, int& n)
 		while (!fin.eof())
 		{
 			std::string buffer;			
-			std::getline(fin, buffer);	
-			
-			if (
-				buffer.find("Human:") == std::string::npos &&
-				buffer.find("Student:") == std::string::npos &&
-				buffer.find("Teacher:") == std::string::npos &&
-				buffer.find("Graduate:") == std::string::npos
-				)continue;
+			std::getline(fin, buffer);				
+			if (NotAppropriateType(buffer))continue;
 			n++;
 		}
 		cout << "Количество записей в файле: " << n << endl;
@@ -81,11 +96,13 @@ Human** Load(const std::string& filename, int& n)
 		fin.seekg(0);
 		cout << "Позиция курсора на чтение: " << fin.tellg() << endl;
 		
-		for (int i = 0; !fin.eof(); i++)
+		for (int i = 0; i < n; i++)
 		{
 			std::string type;
 			fin >> type;
-			
+			if (NotAppropriateType(type))continue;
+			group[i] = HumanFactory(type);
+			if (group[i])fin >> *group[i];
 		}
 
 		fin.close();
@@ -326,5 +343,6 @@ void main()
 
 	int n = 0;
 	Human** group = Load("group.txt", n);
-	//Print(group, n);
+	Print(group, n);
+	Clear(group, n);
 }

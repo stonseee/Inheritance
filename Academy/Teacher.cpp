@@ -17,7 +17,21 @@ void Teacher::set_experience(int experience)
 {
 	this->experience = experience;
 }
-
+std::ifstream& Teacher::read(std::ifstream& ifs)
+{
+	Human::read(ifs);
+	char sz_speciality[SPECIALITY_WIDTH + 1]{};
+	ifs.read(sz_speciality, SPECIALITY_WIDTH);
+	for (int i = SPECIALITY_WIDTH - 2; sz_speciality[i] == ' '; i--)
+	{
+		sz_speciality[i] = 0;
+	}
+	while (sz_speciality[0] == ' ') for (int i = 0; sz_speciality[i]; i++)
+		sz_speciality[i] = sz_speciality[i + 1];
+	speciality = sz_speciality;
+	ifs >> experience;
+	return ifs;
+}
 //constructors
 Teacher::Teacher(HUMAN_TAKE_PARAMETERS, TEACHER_TAKE_PARAMETERS) : Human(HUMAN_GIVE_PARAMETERS)
 {
