@@ -341,8 +341,11 @@ void main()
 	Clear(group, sizeof(group) / sizeof(group[0]));
 #endif // SAVE_CHECK
 
+#ifdef LOAD_CHECK
 	int n = 0;
 	Human** group = Load("group.txt", n);
 	Print(group, n);
 	Clear(group, n);
+#endif // LOAD_CHECK
+
 }

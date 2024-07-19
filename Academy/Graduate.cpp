@@ -39,9 +39,8 @@ std::ostream& Graduate::print(std::ostream& os)const
 	return Student::print(os) << " " << subject;
 	//return Student::print(os) << endl << subject;
 }
-std::ofstream& Graduate::print(std::ofstream& os)const
+std::ofstream& Graduate::print(std::ofstream& ofs)const
 {
-	Student::print(os);	
-	//os << speciality;
-	return os;
+	Student::print(ofs) << subject;
+	return ofs;
 }
