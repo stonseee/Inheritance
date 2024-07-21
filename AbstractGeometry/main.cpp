@@ -1,4 +1,6 @@
-﻿#include<iostream>
+﻿#define _USE_MATH_DEFINES
+#include <math.h>
+#include<iostream>
 #include<Windows.h>
 using namespace std;
 using std::cout;
@@ -136,7 +138,117 @@ namespace Geometry
 			Shape::info();
 		}
 	};
+
+	class Disk : public Shape
+	{
+		double radius;		
+	public:
+		Disk(double radius, Color color) :Shape(color)
+		{
+			set_radius(radius);			
+		}
+		~Disk() {}
+		void set_radius(double radius)
+		{
+			this->radius = radius;
+		}		
+		double get_radius()const
+		{
+			return radius;
+		}		
+		double get_area()const override
+		{
+			return M_PI * (radius * radius);
+		}		
+		double get_perimeter() const override
+		{
+			return 2 * M_PI * radius;
+		}
+		void draw() const override
+		{
+			HWND hwnd = FindWindow(NULL, L"Inheritance - Microsoft Visual Studio");
+			HDC hdc = GetDC(hwnd);
+			HPEN hPen = CreatePen(PS_SOLID, 5, color);
+			HBRUSH hBrush = CreateSolidBrush(color);
+			SelectObject(hdc, hPen);
+			SelectObject(hdc, hBrush);
+			::Ellipse(hdc, 500, 100, 900, 500);
+			DeleteObject(hPen);
+			DeleteObject(hBrush);
+			ReleaseDC(hwnd, hdc);
+		}
+		void info()const override
+		{
+			cout << typeid(*this).name() << endl;
+			cout << "Радиус круга: " << get_radius() << endl;					
+			Shape::info();
+		}
+	};
+
+	POINT point[3];
+
+	class Triangle : public Shape
+	{
+		double width;
+		double height;
+	public:
+		Triangle(double width, double height, Color color) :Shape(color)
+		{
+			set_width(width);
+			set_height(height);
+		}
+		~Triangle() {}
+		void set_width(double width)
+		{
+			this->width = width;
+		}
+		void set_height(double height)
+		{
+			this->height = height;
+		}
+		double get_width()const
+		{
+			return width;
+		}
+		double get_height()const
+		{
+			return height;
+		}
+		double get_area()const override
+		{
+			return (width * height) / 2;
+		}
+		double get_perimeter() const override
+		{
+			return sqrt(((width / 2) * (width / 2)) + (height * height)) * 2 + width;
+		}
+		void draw() const override
+		{
+			HWND hwnd = FindWindow(NULL, L"Inheritance - Microsoft Visual Studio");
+			HDC hdc = GetDC(hwnd);
+			HPEN hPen = CreatePen(PS_SOLID, 5, color);
+			HBRUSH hBrush = CreateSolidBrush(color);
+			SelectObject(hdc, hPen);
+			SelectObject(hdc, hBrush);
+			point[0].x = 600; point[0].y = 400;
+			point[1].x = 500; point[1].y = 450;
+			point[2].x = 700; point[2].y = 450;
+			::Polygon(hdc, point, 3);
+			DeleteObject(hPen);
+			DeleteObject(hBrush);
+			ReleaseDC(hwnd, hdc);
+		}
+		void info()const override
+		{
+			cout << typeid(*this).name() << endl;
+			cout << "Ширина треугольника: " << get_width() << endl;
+			cout << "Высота треугольника: " << get_height() << endl;
+			Shape::info();
+		}
+	};
 }
+
+
 
 void main()
 {
@@ -149,6 +261,12 @@ void main()
 	square.draw();*/
 	square.info();
 
-	Geometry::Rectangle rect(100, 50, Geometry::Color::CONSOLE_BLUE);
-	rect.info();
+	//Geometry::Rectangle rect(100, 50, Geometry::Color::CONSOLE_BLUE);			
+	//rect.info();
+
+	//Geometry::Disk disk(50, Geometry::Color::CONSOLE_BLUE);
+	//disk.info();
+	
+	Geometry::Triangle triangle(100, 50, Geometry::Color::CONSOLE_BLUE);
+	triangle.info();
 }
