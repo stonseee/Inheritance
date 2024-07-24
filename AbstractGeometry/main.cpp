@@ -39,7 +39,15 @@ namespace Geometry
 		{
 			set_start_x(start_x);
 			set_start_y(start_y);
-			set_line_width(line_width);
+			set_line_width(line_width);								
+			if (start_y > 720)
+			{
+				set_start_y(720);
+			}
+			if (start_x > 1280)
+			{
+				set_start_x(1280);
+			}			
 		}
 		virtual ~Shape() {}
 		unsigned int get_start_x()const
@@ -129,9 +137,21 @@ namespace Geometry
 		double height;
 	public:
 		Rectangle(double width, double height, SHAPE_TAKE_PARAMETERS) :Shape(SHAPE_GIVE_PARAMETERS)
-		{
+		{						
 			set_width(width);
-			set_height(height);
+			set_height(height);	
+
+			if (get_height() + get_start_y() > 360 + 720)
+			{
+				set_height(360 + 720 - get_start_y());
+				set_width(get_height() / (height / width));				
+			}
+
+			if (get_width() + get_start_x() > 640 + 1280)
+			{
+				set_width(640 + 1280 - get_start_x());
+				set_height(get_width() / (width / height));				
+			}			
 		}
 		~Rectangle() {}
 		void set_width(double width)
@@ -170,6 +190,7 @@ namespace Geometry
 			DeleteObject(hPen);
 			DeleteObject(hBrush);
 			ReleaseDC(hwnd, hdc);
+			
 		}
 		void info()const override
 		{
@@ -193,7 +214,12 @@ namespace Geometry
 	public:
 		Disk(double radius, SHAPE_TAKE_PARAMETERS) : Shape(SHAPE_GIVE_PARAMETERS)
 		{
-			set_radius(radius);			
+			set_radius(radius);		
+
+			if ((radius * 2) + get_start_y() > 1280)
+			{
+				set_radius((1280 - get_start_y()) / 2);
+			}					
 		}
 		~Disk() {}
 		void set_radius(double radius)
@@ -306,18 +332,18 @@ void main()
 {
 	setlocale(LC_ALL, "");
 	//Shape shape(Color::CONSOLE_RED);
-	Geometry::Square square(5, 100, 100, 5, Geometry::Color::RED);
+	Geometry::Square square(1000, 0, 0, 0, Geometry::Color::RED);
 	/*cout << "Длина стороны: " << square.get_side() << endl;
 	cout << "Площадь квадрата: " << square.get_area() << endl;
 	cout << "Периметр квадрата: " << square.get_perimeter() << endl;
 	square.draw();*/
 	square.info();
 
-	Geometry::Rectangle rect(100, 50, 200, 100, 10, Geometry::Color::BLUE);			
-	rect.info();
+	//Geometry::Rectangle rect(1000, 100, 1000, 1000, 0, Geometry::Color::BLUE);			
+	//rect.info();
 
-	Geometry::Disk disk(100, 500, 100, 5, Geometry::Color::YELLOW);
-	disk.info();
+	//Geometry::Disk disk(10000, 100000, 100000, 0, Geometry::Color::YELLOW);
+	//disk.info();
 	
 	//Geometry::Triangle triangle(100, 50, Geometry::Color::CONSOLE_BLUE);
 	//triangle.info();
