@@ -296,40 +296,114 @@ namespace Geometry
 		}
 	};
 
-	POINT point[3];
+	class Triangle : public Shape
+	{
+		
+	public:
+		Triangle(SHAPE_TAKE_PARAMETERS) :Shape(SHAPE_GIVE_PARAMETERS)
+		{
 
-	int Shape::count = 0;
-
-	/*class Triangle : public Shape
+		}
+		~Triangle() {}
+		virtual double get_height() const = 0;
+		virtual double get_width() const = 0;
+		void info() const override
+		{
+			cout << "Высота треугольника: " << get_height() << endl;
+			cout << "Ширина треугольника: " << get_width() << endl;
+			Shape::info();
+		}
+	};
+	
+	class RightTrinagle : public Triangle
 	{
 		double width;
 		double height;
 	public:
-		Triangle(double width, double height, SHAPE_TAKE_PARAMETERS) :Shape(SHAPE_GIVE_PARAMETERS)
+		RightTrinagle(double width, double height, SHAPE_TAKE_PARAMETERS) : Triangle(SHAPE_GIVE_PARAMETERS)
 		{
 			set_width(width);
 			set_height(height);
 		}
-		~Triangle() {}
+		~RightTrinagle() {}
 		void set_width(double width)
 		{
-			this->width = width;
+			this->width = filter_size(width);
 		}
 		void set_height(double height)
 		{
-			this->height = height;
+			this->height = filter_size(height);
 		}
-		double get_width()const
-		{
-			return width;
-		}
-		double get_height()const
+		double get_height() const override
 		{
 			return height;
 		}
+		double get_width() const override
+		{
+			return width;
+		}
 		double get_area()const override
 		{
-			return (width * height) / 2;
+			return (height * width) / 2;
+		}
+		double get_perimeter() const override
+		{
+			return sqrt((height * height) + (width * width)) + height + width;
+		}
+		void draw() const override
+		{
+			POINT point[3];
+			HWND hwnd = FindWindow(NULL, L"Inheritance - Microsoft Visual Studio");
+			HDC hdc = GetDC(hwnd);
+			HPEN hPen = CreatePen(PS_SOLID, 5, color);
+			HBRUSH hBrush = CreateSolidBrush(color);
+			SelectObject(hdc, hPen);
+			SelectObject(hdc, hBrush);
+			point[0].x = get_start_x(); point[0].y = get_start_y();
+			point[1].x = get_start_x(); point[1].y = get_start_y() + get_height();
+			point[2].x = get_start_x() + get_width(); point[2].y = get_start_y() + get_height();
+			::Polygon(hdc, point, 3);
+			DeleteObject(hPen);
+			DeleteObject(hBrush);
+			ReleaseDC(hwnd, hdc);			
+		}
+		void info() const override
+		{
+			cout << typeid(*this).name() << endl;
+			Triangle::info();
+		}
+	};
+
+	class IsoscalesTriangle : public Triangle
+	{
+		double width;
+		double height;
+	public:
+		IsoscalesTriangle(double width, double height, SHAPE_TAKE_PARAMETERS) : Triangle(SHAPE_GIVE_PARAMETERS)
+		{
+			set_width(width);
+			set_height(height);
+		}
+		~IsoscalesTriangle() {}
+		void set_width(double width)
+		{
+			this->width = filter_size(width);
+		}
+		void set_height(double height)
+		{
+			this->height = filter_size(height);
+		}
+		double get_height() const override
+		{
+			return height;
+		}
+		double get_width() const override
+		{
+			return width;
+		}
+		double get_area()const override
+		{
+			return (height * width) / 2;
 		}
 		double get_perimeter() const override
 		{
@@ -337,49 +411,66 @@ namespace Geometry
 		}
 		void draw() const override
 		{
+			POINT point[3];
 			HWND hwnd = FindWindow(NULL, L"Inheritance - Microsoft Visual Studio");
 			HDC hdc = GetDC(hwnd);
 			HPEN hPen = CreatePen(PS_SOLID, 5, color);
 			HBRUSH hBrush = CreateSolidBrush(color);
 			SelectObject(hdc, hPen);
 			SelectObject(hdc, hBrush);
-			point[0].x = 600; point[0].y = 400;
-			point[1].x = 500; point[1].y = 450;
-			point[2].x = 700; point[2].y = 450;
+			point[0].x = get_start_x() + (get_width() / 2); point[0].y = get_start_y();
+			point[1].x = get_start_x(); point[1].y = get_start_y() + get_height();
+			point[2].x = get_start_x() + get_width(); point[2].y = get_start_y() + get_height();
 			::Polygon(hdc, point, 3);
 			DeleteObject(hPen);
 			DeleteObject(hBrush);
-			ReleaseDC(hwnd, hdc);
+			ReleaseDC(hwnd, hdc);			
 		}
-		void info()const override
+		void info() const override
 		{
 			cout << typeid(*this).name() << endl;
-			cout << "Ширина треугольника: " << get_width() << endl;
-			cout << "Высота треугольника: " << get_height() << endl;
-			Shape::info();
+			Triangle::info();
 		}
-	};*/
+	};
+
+	class EquilateralTriangle : public IsoscalesTriangle
+	{		
+	public:
+		EquilateralTriangle(double height, SHAPE_TAKE_PARAMETERS) : IsoscalesTriangle((2 * height) / sqrt(3), height, SHAPE_GIVE_PARAMETERS){}
+		~EquilateralTriangle() {}		
+	};
+
+	int Shape::count = 0;
 }
 
 void main()
 {
 	setlocale(LC_ALL, "");
 	//Shape shape(Color::CONSOLE_RED);
-	Geometry::Square square(5, 100, 100, 5, Geometry::Color::RED);
+	//Geometry::Square square(5, 100, 100, 5, Geometry::Color::RED);
 	/*cout << "Длина стороны: " << square.get_side() << endl;
 	cout << "Площадь квадрата: " << square.get_area() << endl;
 	cout << "Периметр квадрата: " << square.get_perimeter() << endl;
 	square.draw();*/
-	square.info();
+	//square.info();
 
-	Geometry::Rectangle rect(500, 300, 200, 100, 1, Geometry::Color::BLUE);			
-	rect.info();
+	//Geometry::Rectangle rect(500, 300, 200, 100, 1, Geometry::Color::BLUE);			
+	//rect.info();
 
-	Geometry::Disk disk(10000, 500, 100, 5, Geometry::Color::YELLOW);
-	disk.info();
+	//Geometry::Disk disk(10000, 500, 100, 5, Geometry::Color::YELLOW);
+	//disk.info();
 	
-	//Geometry::Triangle triangle(100, 50, Geometry::Color::CONSOLE_BLUE);
+	//Geometry::Triangle triangle(300, 300, 50, Geometry::Color::GREEN);
 	//triangle.info();
 
-	cout << "Количество фигур: " << disk.get_count() << endl;
+	Geometry::RightTrinagle right(300, 200, 200, 100, 5, Geometry::Color::GREEN);
+	right.info();
+
+	Geometry::IsoscalesTriangle isoscales(300, 200, 100, 800, 5, Geometry::Color::RED);
+	isoscales.info();
+
+	Geometry::EquilateralTriangle equilateral(200, 500, 800, 5, Geometry::Color::YELLOW);
+	equilateral.info();
+
+	cout << "Количество фигур: " << right.get_count() << endl;
 }
