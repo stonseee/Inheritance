@@ -40,21 +40,21 @@ namespace Geometry
 		static const int MAX_LINE_WIDTH = 32;
 		static const int MIN_SIZE = 50;
 		static const int MAX_SIZE = 500;
-		static int count;		
-		HWND hwnd;
-		HDC hdc;	
-		HPEN hPen;
-		HBRUSH hBrush;
+		static int count;	
+		HWND hwnd = FindWindow(NULL, L"Inheritance - Microsoft Visual Studio");
+		HDC hdc = GetDC(hwnd);
+		HPEN hPen = CreatePen(PS_SOLID, line_width, color);
+		HBRUSH hBrush = CreateSolidBrush(color);
 	public:
 		virtual double get_area()const = 0;
 		virtual double get_perimeter()const = 0;
 		
 		Shape(SHAPE_TAKE_PARAMETERS) :color(color)
-		{
+		{			
 			set_start_x(start_x);
 			set_start_y(start_y);
 			set_line_width(line_width);		
-			count++;
+			count++;			
 		}
 		virtual ~Shape() 
 		{
@@ -78,7 +78,7 @@ namespace Geometry
 		unsigned int get_line_width()const
 		{
 			return line_width;
-		}		
+		}				
 		void set_start_x(unsigned int start_x)
 		{
 			if (start_x < MIN_START_X) start_x = MIN_START_X;
@@ -105,19 +105,12 @@ namespace Geometry
 				size > MAX_SIZE ? MAX_SIZE : 
 				size;
 		}
-		virtual HDC draw()
-		{
-			hwnd = FindWindow(NULL, L"Inheritance - Microsoft Visual Studio");			
-			hdc = GetDC(hwnd);			
-			hPen = CreatePen(PS_SOLID, line_width, color);			
-			hBrush = CreateSolidBrush(color);
-
+		virtual void draw() const
+		{			
 			SelectObject(hdc, hPen);			
-			SelectObject(hdc, hBrush);	
-
-			return hdc;
+			SelectObject(hdc, hBrush);		
 		}
-		virtual void info()
+		virtual void info() const
 		{
 			cout << "Площадь фигуры: " << get_area() << endl;
 			cout << "Периметр фигуры: " << get_perimeter() << endl;			
@@ -160,12 +153,12 @@ namespace Geometry
 		{
 			return (width + height) * 2;
 		}
-		HDC draw() override
-		{
-			::Rectangle(Shape::draw(), start_x, start_y, start_x + width, start_y + height);
-			return Shape::draw();
+		void draw() const override
+		{			
+			Shape::draw();			
+			::Rectangle(hdc, start_x, start_y, start_x + width, start_y + height);			
 		}
-		void info() override
+		void info() const override
 		{
 			cout << typeid(*this).name() << endl;
 			cout << "Ширина прямоугольника: " << get_width() << endl;
@@ -210,12 +203,12 @@ namespace Geometry
 		{			
 			return M_PI * get_diameter();
 		}
-		HDC draw() override
+		void draw() const override
 		{
-			::Ellipse(Shape::draw(), start_x, start_y, start_x + get_diameter(), start_y + get_diameter());
-			return Shape::draw();
+			Shape::draw();
+			::Ellipse(hdc, start_x, start_y, start_x + get_diameter(), start_y + get_diameter());			
 		}
-		void info() override
+		void info() const override
 		{
 			cout << typeid(*this).name() << endl;
 			cout << "Радиус круга: " << get_radius() << endl;					
@@ -231,7 +224,7 @@ namespace Geometry
 		Triangle(SHAPE_TAKE_PARAMETERS) :Shape(SHAPE_GIVE_PARAMETERS){}
 		~Triangle() {}
 		virtual double get_height() const = 0;			
-		void info() override
+		void info() const override
 		{
 			cout << "Высота треугольника: " << get_height() << endl;			
 			Shape::info();
@@ -267,8 +260,10 @@ namespace Geometry
 		{
 			return side * 3;
 		}
-		HDC draw() override
+		void draw() const override
 		{
+			Shape::draw();
+
 			POINT vertices[] =
 			{
 				{start_x, start_y + side},
@@ -276,10 +271,9 @@ namespace Geometry
 				{start_x + side / 2, start_y + side - get_height()}
 			};
 
-			::Polygon(Shape::draw(), vertices, 3);
-			return Shape::draw();
+			::Polygon(hdc, vertices, 3);			
 		}
-		void info() override
+		void info() const override
 		{
 			cout << typeid(*this).name() << endl;
 			cout << "Длина стороны: " << get_side() << endl;
@@ -328,8 +322,10 @@ namespace Geometry
 		{
 			return base + (side * 2);
 		}
-		HDC draw() override
+		void draw() const override
 		{	
+			Shape::draw();
+
 			POINT vertices[] =
 			{
 				{start_x, start_y + side},
@@ -337,10 +333,9 @@ namespace Geometry
 				{start_x + base / 2, start_y + side - get_height()}
 			};
 
-			::Polygon(Shape::draw(), vertices, 3);
-			return Shape::draw();
+			::Polygon(hdc, vertices, 3);			
 		}
-		void info() override
+		void info() const override
 		{
 			cout << typeid(*this).name() << endl;
 			cout << "Oснование треугольника: " << get_base() << endl;
@@ -350,6 +345,7 @@ namespace Geometry
 	};
 
 	int Shape::count = 0;
+	//HDC Shape::hdc;
 }
 
 void main()
