@@ -344,8 +344,7 @@ namespace Geometry
 		}
 	};
 
-	int Shape::count = 0;
-	//HDC Shape::hdc;
+	int Shape::count = 0;	
 }
 
 void main()
