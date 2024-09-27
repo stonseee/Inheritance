@@ -66,7 +66,7 @@ public:
 	}
 	void take_off() override
 	{
-		cout << "Диспетчер блять мы падаем!!" << endl;
+		cout << "Диспетчер мы падаем!!" << endl;
 	}
 	void land() override
 	{
